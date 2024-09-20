@@ -1,0 +1,36 @@
+server:
+  port: 10086
+spring:
+  main:
+    web-application-type: reactive
+  application:
+    name: u-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: u-context-routes
+          uri: lb://u-context
+          predicates:
+            - Path=/context/**
+          filters:
+            - RewritePath=/(?<segment>.*),/$\{segment}
+        - id: u-member-routes
+          uri: lb://u-member
+          predicates:
+            - Path=/member/**
+          filters:
+            - RewritePath=/(?<segment>.*),/$\{segment}
+        - id: u-question-routes
+          uri: lb://u-question
+          predicates:
+            - Path=/question/**
+          filters:
+            - RewritePath=/(?<segment>.*),/$\{segment}
+        - id: u-renren-fast-routes
+          uri: lb://renren-fast
+          predicates:
+            - Path=/renren-fast/**
+          filters:
+              - RewritePath=/renren-fast/(?<segment>.*),/renren-fast/$\{segment}
+    nacos:
+      server-addr: 127.0.0.1:8848
