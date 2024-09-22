@@ -29,8 +29,8 @@ spring:
         - id: u-renren-fast-routes
           uri: lb://renren-fast
           predicates:
-            - Path=/renren-fast/**
+            - Path=/api/**
           filters:
-              - RewritePath=/renren-fast/(?<segment>.*),/renren-fast/$\{segment}
+              - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
     nacos:
       server-addr: 127.0.0.1:8848
