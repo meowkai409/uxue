@@ -23,9 +23,9 @@ spring:
         - id: u-question-routes
           uri: lb://u-question
           predicates:
-            - Path=/question/**
+            - Path=/api/question/**
           filters:
-            - RewritePath=/(?<segment>.*),/$\{segment}
+            - RewritePath=/api/question/(?<segment>.*),/question/$\{segment}
         - id: u-renren-fast-routes
           uri: lb://renren-fast
           predicates:
