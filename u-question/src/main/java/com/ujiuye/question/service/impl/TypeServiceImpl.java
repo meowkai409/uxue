@@ -1,5 +1,6 @@
 package com.ujiuye.question.service.impl;
 
+import com.alibaba.druid.util.StringUtils;
 import org.springframework.stereotype.Service;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -18,11 +19,18 @@ public class TypeServiceImpl extends ServiceImpl<TypeDao, TypeEntity> implements
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
+        //1、获取查询关键字
+        String key= (String) params.get("key");
+        //2、创建查询条件对象
+        QueryWrapper<TypeEntity> queryWrapper = new QueryWrapper<>();
+        //3、设置查询条件
+        if(!StringUtils.isEmpty(key)){
+            queryWrapper.eq("id",key).or().like("type",key);
+        }
         IPage<TypeEntity> page = this.page(
                 new Query<TypeEntity>().getPage(params),
-                new QueryWrapper<TypeEntity>()
+                queryWrapper
         );
-
         return new PageUtils(page);
     }
 
